@@ -1,0 +1,32 @@
+version: '3'
+services:
+  idea_api:
+    container_name: idea_api
+    build: .
+    ports:
+      - '4000:4000'
+    depends_on:
+      - db
+    links:
+      - 'db:database'
+    networks:
+      - webnet
+  db:
+    image: postgres
+    restart: always
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: "enderson_idea"
+      POSTGRES_PASSWORD: "api_idea"
+      POSTGRES_DB: "ideas"
+    volumes:
+      - postgres_idea:/var/lib/postgresql/data
+    networks:
+      - webnet
+volumes:
+  postgres_idea:
+    external: true
+networks:
+  webnet:

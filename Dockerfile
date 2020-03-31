@@ -1,5 +1,12 @@
 FROM node:12.16.1
 
-COPY . /idea-api
+LABEL NAME_APP="idea-api"
+LABEL DEVELOPER="Enderson Vizcaino"
 
-RUN npm i -g @nestjs/cli
+COPY . /idea-api
+WORKDIR /idea-api
+
+RUN npm i && \
+   npm run build
+
+CMD [ "npm", "run", "start:prod" ]
