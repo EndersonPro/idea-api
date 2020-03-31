@@ -7,7 +7,7 @@ name: Probando Deploy a Amazon ECS
 
 jobs:
   deploy:
-    name: Desplegando
+    name: Desplegando.
     runs-on: ubuntu-latest
 
     steps:
