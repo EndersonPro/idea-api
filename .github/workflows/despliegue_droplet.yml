@@ -13,7 +13,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Conectando por SSH a Droplet
+      - name: Conectando por SSH a Droplet V1
+        uses: fifsky/ssh-action@master
+        with:
+            command: |
+            cd /tmp
+            ls -a
+            host: ${{ secrets.DIGITAlOCEAN_HOST }}
+            user: root
+            key: ${{ secrets.KEY}}
+      - name: Conectando por SSH a Droplet V2
         uses: appleboy/ssh-action@master
         with:
             host: ${{ secrets.DIGITAlOCEAN_HOST }}
