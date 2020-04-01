@@ -13,13 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Conectando por SSH a Droplet V1
+      - name: Desplegando Cambios -> idea_api
         uses: fifsky/ssh-action@master
         with:
-            command: |
-                cd /tmp
-                ls -a
-                whoami
+            command: | 
+                docker-compose up --build --force-recreate --no-deps -d idea_api
+                docker images -f dangling=true -qa | xargs docker rmi
             host: ${{ secrets.DIGITAlOCEAN_HOST }}
             user: root
             key: ${{ secrets.KEY}}

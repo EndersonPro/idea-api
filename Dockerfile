@@ -6,7 +6,7 @@ LABEL DEVELOPER="Enderson Vizcaino"
 COPY . /idea-api
 WORKDIR /idea-api
 
-RUN npm i && \
+RUN npm i --no-optional && \
    npm run build
 
 CMD [ "npm", "run", "start:prod" ]
