@@ -16,7 +16,10 @@ jobs:
       - name: Desplegando Cambios -> idea_api
         uses: fifsky/ssh-action@master
         with:
-            command: docker-compose up --build --force-recreate --no-deps -d idea_api
+            command: | 
+                cd idea_api &&
+                git pull origin master && 
+                docker-compose up --build --force-recreate --no-deps -d idea_api
             host: ${{ secrets.DIGITAlOCEAN_HOST }}
             user: root
             key: ${{ secrets.KEY}}
