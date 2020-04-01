@@ -19,15 +19,7 @@ jobs:
             command: |
                 cd /tmp
                 ls -a
+                whoami
             host: ${{ secrets.DIGITAlOCEAN_HOST }}
             user: root
             key: ${{ secrets.KEY}}
-      - name: Conectando por SSH a Droplet V2
-        uses: appleboy/ssh-action@master
-        with:
-            host: ${{ secrets.DIGITAlOCEAN_HOST }}
-            username: ${{ secrets.USERNAME }}
-            key: ${{ secrets.KEY }}
-            script: |
-                whoami
-                ls -al
