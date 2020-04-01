@@ -19,5 +19,5 @@ jobs:
         host: ${{ secrets.DIGITAlOCEAN_HOST }}
         username: ${{ secrets.USERNAME }}
         port: ${{ secrets.PORT }}
-        key: ${{ secrets.SSHKEY }}
+        key: ${{ secrets.KEY }}
         script: whoami
