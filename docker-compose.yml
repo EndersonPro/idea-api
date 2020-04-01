@@ -4,7 +4,7 @@ services:
     container_name: idea_api
     build: .
     ports:
-      - '4000:4000'
+      - '80:4000'
     depends_on:
       - db
     links:
