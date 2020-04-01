@@ -14,12 +14,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Conectando por SSH a Droplet
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.DIGITAlOCEAN_HOST }}
-        username: ${{ secrets.USERNAME }}
-        port: ${{ secrets.PORT }}
-        key: ${{ secrets.KEY }}
-        script: |
-            whoami
-            ls -al
+    - uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.DIGITAlOCEAN_HOST }}
+            username: ${{ secrets.USERNAME }}
+            port: ${{ secrets.PORT }}
+            key: ${{ secrets.KEY }}
+            script: |
+                whoami
+                ls -al
