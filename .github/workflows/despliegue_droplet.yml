@@ -17,7 +17,7 @@ jobs:
         uses: fifsky/ssh-action@master
         with:
             command: | 
-                cd idea_api &&
+                cd idea-api &&
                 git pull origin master && 
                 docker-compose up --build --force-recreate --no-deps -d idea_api
             host: ${{ secrets.DIGITAlOCEAN_HOST }}
