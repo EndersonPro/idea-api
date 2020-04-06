@@ -7,7 +7,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { LoggingInterceptor } from './shared/logging.interceptor';
 
-const host = process.env.NODE_ENV === 'production' ? 'db' : 'localhost'; 
+const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'db'; 
 
 @Module({
   imports: [
