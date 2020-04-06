@@ -12,7 +12,9 @@ export class UserService {
   ) {}
 
   async showAllUsers(): Promise<UserRO[]> {
-    const user: UserEntity[] = await this.userRepository.find();
+    const user: UserEntity[] = await this.userRepository.find({
+      relations: ['ideas'],
+    });
     return user.map((u: UserEntity) => u.toResponseObject(false));
   }
 
