@@ -19,6 +19,15 @@ jobs:
     runs-on: ubuntu-latest
     name: Merge
     steps:
+    - uses: actions/checkout@v1
+    - name: install node v12
+        uses: actions/setup-node@v1
+        with:
+        node-version: 12
+    - name: yarn install
+        run: yarn install
+    - name: tsc
+        uses: icrawl/action-tsc@v1
     - name: Integration check
       uses: squalrus/merge-bot@v0.2.0
       with:
