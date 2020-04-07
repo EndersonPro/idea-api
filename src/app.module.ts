@@ -21,6 +21,7 @@ const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'db';
       password: 'api_idea',
       database: 'ideas',
       synchronize: true,
+      dropSchema: true,
       logging: true,
       entities: ["./dist/**/*.entity.js"],
     }),
