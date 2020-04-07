@@ -26,20 +26,24 @@ export class CommentService {
     return this.toResponseObject(comment);
   }
 
-  async showByIdea(ideaId: string) {
-    const idea = await this.ideaRepository.findOne({
-      where: { id: ideaId },
-      relations: ['comments', 'comments.author', 'comments.idea'],
+  async showByIdea(ideaId: string, page = 1) {
+    const comments = await this.commentRepository.find({
+      where: { idea: { id: ideaId } },
+      relations: ['author'],
+      take: 25,
+      skip: 25 * (page - 1),
     });
-    return idea.comments.map((comment: CommentEntity) =>
+    return comments.map((comment: CommentEntity) =>
       this.toResponseObject(comment),
     );
   }
 
-  async showByUser(userId: string) {
+  async showByUser(userId: string, page = 1) {
     const comments = await this.commentRepository.find({
       where: { author: { id: userId } },
       relations: ['author'],
+      take: 25,
+      skip: 25 * (page - 1),
     });
     return comments.map((comment: CommentEntity) =>
       this.toResponseObject(comment),
