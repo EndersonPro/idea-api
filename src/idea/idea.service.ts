@@ -15,7 +15,7 @@ export class IdeaService {
 
   async showAll(): Promise<IdeaRO[]> {
     const ideas = await this.ideaReposity.find({
-      relations: ['author', 'upvotes', 'downvotes'],
+      relations: ['author', 'upvotes', 'downvotes', 'comments'],
     });
     return ideas.map((idea: IdeaEntity) => this.toResponseObject(idea));
   }
@@ -42,7 +42,7 @@ export class IdeaService {
   async read(id: string): Promise<IdeaRO> {
     const idea = await this.ideaReposity.findOne({
       where: { id },
-      relations: ['author', 'upvotes', 'downvotes'],
+      relations: ['author', 'upvotes', 'downvotes', 'comments'],
     });
     if (!idea) {
       throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
@@ -62,7 +62,10 @@ export class IdeaService {
     if (!idea) throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
     this.ensureOwnership(idea, userId);
     await this.ideaReposity.update({ id }, data);
-    idea = await this.ideaReposity.findOne({ id });
+    idea = await this.ideaReposity.findOne({
+      where: { id },
+      relations: ['author', 'comments'],
+    });
     return this.toResponseObject(idea);
   }
 
@@ -140,7 +143,7 @@ export class IdeaService {
   async upvote(id: string, userId: string) {
     let idea = await this.ideaReposity.findOne({
       where: { id },
-      relations: ['author', 'upvotes', 'downvotes'],
+      relations: ['author', 'upvotes', 'downvotes', 'comments'],
     });
     const user = await this.userReposity.findOne({ where: { id: userId } });
     idea = await this.vote(idea, user, Votes.UP);
@@ -148,11 +151,14 @@ export class IdeaService {
   }
 
   async downvote(id: string, userId: string) {
-    let idea = await this.ideaReposity.findOne({ where: { id }, relations: ['author', 'upvotes', 'downvotes'] });
+    let idea = await this.ideaReposity.findOne({
+      where: { id },
+      relations: ['author', 'upvotes', 'downvotes', 'comments'],
+    });
     const user = await this.userReposity.findOne({ where: { id: userId } });
     idea = await this.vote(idea, user, Votes.DOWN);
     return this.toResponseObject(idea);
-}
+  }
 
   ensureOwnership(idea: IdeaEntity, userId: string) {
     if (idea.author.id !== userId) {

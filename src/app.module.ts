@@ -7,6 +7,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { LoggingInterceptor } from './shared/logging.interceptor';
 import { UserModule } from './user/user.module';
+import { CommentModule } from './comment/comment.module';
 
 const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'db'; 
 
@@ -25,6 +26,7 @@ const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'db';
     }),
     IdeaModule,
     UserModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [
