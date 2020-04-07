@@ -1,0 +1,20 @@
+{
+  "name": "faker-data-generator",
+  "version": "1.0.0",
+  "description": "Simple generador de informacion fake para el test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "faker",
+    "data",
+    "API"
+  ],
+  "author": "Enderson Vizcaino",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "faker": "^4.1.0"
+  }
+}
