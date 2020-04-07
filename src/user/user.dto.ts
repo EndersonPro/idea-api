@@ -13,5 +13,6 @@ export class UserRO {
     username: string;
     created: Date;
     token?: string;
-    ideas?: IdeaEntity[]
+    ideas?: IdeaEntity[];
+    bookmarks?: IdeaEntity[];
 }
