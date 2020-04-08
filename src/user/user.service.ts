@@ -15,7 +15,7 @@ export class UserService {
     const user: UserEntity[] = await this.userRepository.find({
       relations: ['ideas', 'bookmarks'],
       take: 25,
-      skip: 25 * (page - 1)
+      skip: 25 * (page - 1),
     });
     return user.map((u: UserEntity) => u.toResponseObject(false));
   }
@@ -32,6 +32,14 @@ export class UserService {
     return user.toResponseObject();
   }
 
+  async read(username: string): Promise<UserRO> {
+    const user = await this.userRepository.findOne({
+      where: { username },
+      relations: ['ideas', 'bookmarks'],
+    });
+    return user.toResponseObject(false);
+  }
+  
   async register(data: UserDTO): Promise<UserRO> {
     const { username } = data;
     let user = await this.userRepository.findOne({ where: { username } });
