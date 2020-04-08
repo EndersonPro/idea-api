@@ -6,38 +6,68 @@ import {
   Logger,
   HttpStatus,
 } from '@nestjs/common';
+import { Request, Response } from 'express';
+import { GqlArgumentsHost, GqlExceptionFilter } from '@nestjs/graphql';
+import { GraphQLResolveInfo } from 'graphql';
 
 @Catch()
-export class HttpErrorFilter implements ExceptionFilter {
+export class HttpErrorFilter implements ExceptionFilter, GqlExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const request = ctx.getRequest();
-    const response = ctx.getResponse();
+    const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
+
+    const gqlHost = GqlArgumentsHost.create(host);
+    const info = gqlHost.getInfo<GraphQLResolveInfo>();
+
     const status = exception.getStatus
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR;
 
     if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
+      // tslint:disable-next-line: no-console
       console.error(exception);
     }
 
-    const errorResponse: object = {
-      code: status,
+    const errorResponse = {
+      statusCode: status,
       timestamp: new Date().toLocaleDateString(),
-      path: request.url,
-      method: request.method,
-      message:
+      error:
         status !== HttpStatus.INTERNAL_SERVER_ERROR
           ? exception.message || null
-          : 'Internal Server Error',
+          : 'Internal server error',
     };
 
-    Logger.error(
-      `${request.method} ${request.url}`,
-      JSON.stringify(errorResponse),
-      'ExceptionFilter',
-    );
+    // This is for REST petitions
+    if (request) {
+      const error = {
+        ...errorResponse,
+        path: request.url,
+        method: request.method,
+      };
 
-    response.status(404).json(errorResponse);
+      Logger.error(
+        `${request.method} ${request.url}`,
+        JSON.stringify(error),
+        'ExceptionFilter',
+      );
+
+      response.status(status).json(errorResponse);
+    } else {
+      // This is for GRAPHQL petitions
+      const error = {
+        ...errorResponse,
+        type: info.parentType,
+        field: info.fieldName,
+      };
+
+      Logger.error(
+        `${info.parentType} ${info.fieldName}`,
+        JSON.stringify(error),
+        'ExceptionFilter',
+      );
+
+      return exception;
+    }
   }
 }
