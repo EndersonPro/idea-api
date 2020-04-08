@@ -8,11 +8,16 @@ import { HttpErrorFilter } from './shared/http-error.filter';
 import { LoggingInterceptor } from './shared/logging.interceptor';
 import { UserModule } from './user/user.module';
 import { CommentModule } from './comment/comment.module';
+import { GraphQLModule } from '@nestjs/graphql';
 
-const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'db'; 
+const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'db';
 
 @Module({
   imports: [
+    GraphQLModule.forRoot({
+        typePaths: ['./**/*.graphql'],
+        context: ({ req }) => ({ headers: req.headers })
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host,
@@ -21,9 +26,9 @@ const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'db';
       password: 'api_idea',
       database: 'ideas',
       synchronize: true,
-      dropSchema: true,
+      dropSchema: false,
       logging: true,
-      entities: ["./dist/**/*.entity.js"],
+      entities: ['./dist/**/*.entity.js'],
     }),
     IdeaModule,
     UserModule,
