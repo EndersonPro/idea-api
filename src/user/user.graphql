@@ -1,0 +1,27 @@
+type User {
+    id: String!
+    username: String!
+    created: String!
+    bookmarks: [Idea!]
+    ideas: [Idea!]
+    comments: [Comment!]
+}
+
+type Auth {
+    username: String!
+    token: String!
+}
+
+type Query {
+    """ Obtener la lista de usuarios """
+    users(pages: Int): [User!]
+    user(username: String!): User
+    whoami: User
+}
+
+type Mutation {
+    """ Inicio de Sesion  """
+    login(username: String!, password: String!): Auth!
+    """ Registrar un nuevo usuario """
+    register(username: String!, password:String!): Auth!
+}

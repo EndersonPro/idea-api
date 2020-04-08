@@ -1,0 +1,17 @@
+type Idea {
+  id: ID!
+  updated: String!
+  created: String!
+  idea: String!
+  description: String!
+  author: User
+  comments: [Comment!]
+  upvotes: Int
+  downvotes: Int
+}
+
+
+type Query {
+    """ Obtener todas las ideas """
+    ideas(pages: Int, newest: Boolean): [Idea!]
+}
