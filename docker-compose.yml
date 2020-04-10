@@ -11,6 +11,8 @@ services:
       - 'db:database'
     networks:
       - webnet
+    environment: 
+        NODE_ENV: "production"
   db:
     image: postgres
     restart: always

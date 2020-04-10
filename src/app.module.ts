@@ -10,8 +10,8 @@ import { UserModule } from './user/user.module';
 import { CommentModule } from './comment/comment.module';
 import { GraphQLModule } from '@nestjs/graphql';
 
-const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'db';
-
+const host: string = process.env.NODE_ENV === 'development' ? 'localhost' : 'db'; 
+const entities: string[] = process.env.NODE_ENV === 'development' ? ["./dist/**/*.entity.js"] : ["./**/*.entity.js"];
 @Module({
   imports: [
     GraphQLModule.forRoot({
@@ -28,7 +28,7 @@ const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'db';
       synchronize: true,
       dropSchema: false,
       logging: true,
-      entities: ['./dist/**/*.entity.js'],
+      entities
     }),
     IdeaModule,
     UserModule,
