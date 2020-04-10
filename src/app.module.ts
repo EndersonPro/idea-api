@@ -9,8 +9,8 @@ import { LoggingInterceptor } from './shared/logging.interceptor';
 import { UserModule } from './user/user.module';
 import { CommentModule } from './comment/comment.module';
 
-const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'db'; 
-
+const host: string = process.env.NODE_ENV === 'development' ? 'localhost' : 'db'; 
+const entities: string[] = process.env.NODE_ENV === 'development' ? ["./dist/**/*.entity.js"] : ["./**/*.entity.js"];
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -23,7 +23,7 @@ const host = process.env.NODE_ENV === 'development' ? 'localhost' : 'db';
       synchronize: true,
       dropSchema: true,
       logging: true,
-      entities: ["./dist/**/*.entity.js"],
+      entities
     }),
     IdeaModule,
     UserModule,
