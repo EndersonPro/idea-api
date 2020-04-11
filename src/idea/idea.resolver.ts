@@ -14,6 +14,11 @@ export class IdeaResolver {
     return this.ideaService.showAll(pages, newest);
   }
 
+  @Query()
+  idea(@Args('id') idIdea: string) {
+      return this.ideaService.show(idIdea);
+  }
+
   @ResolveProperty()
   comments(@Parent() idea) {
       const { id } = idea;
