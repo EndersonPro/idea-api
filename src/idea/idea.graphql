@@ -14,4 +14,6 @@ type Idea {
 type Query {
     """ Obtener todas las ideas """
     ideas(pages: Int, newest: Boolean): [Idea!]
+    """ Obtener una idea """
+    idea(id: ID!): Idea!
 }
