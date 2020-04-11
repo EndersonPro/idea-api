@@ -23,6 +23,14 @@ export class IdeaService {
     return ideas.map((idea: IdeaEntity) => this.toResponseObject(idea));
   }
 
+  async show(id: string) {
+    const idea = await this.ideaReposity.findOne({
+      where: { id },
+      relations: ['author', 'upvotes', 'downvotes', 'comments'],
+    });
+    return this.toResponseObject(idea);
+  }
+
   toResponseObject(idea: IdeaEntity): IdeaRO {
     const responseObject: any = {
       ...idea,
